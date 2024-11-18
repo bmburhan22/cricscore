@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "16799941324",
+    "project_id": "cricscore-13e7c",
+    "storage_bucket": "cricscore-13e7c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16799941324:android:efed1ff166e9fcca98f869",
+        "android_client_info": {
+          "package_name": "com.bmburhan.cricscore"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-MaGC0e1oNQcRHEOGHtvuf5xi6p2w1M8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16799941324:android:fc70f2cbf041672a98f869",
+        "android_client_info": {
+          "package_name": "com.mycompany.cricscore"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-MaGC0e1oNQcRHEOGHtvuf5xi6p2w1M8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
