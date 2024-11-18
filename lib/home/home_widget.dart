@@ -120,8 +120,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         children:
                             List.generate(dateList.length, (dateListIndex) {
                           final dateListItem = dateList[dateListIndex];
-                          return Container();
-                          /*
+
                           return Container(
                             width: double.infinity,
                             color: Color(0x00000000),
@@ -240,6 +239,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                             letterSpacing: 0.0,
                                                           ),
                                                     ),
+                                                  /*
                                                     wrapWithModel(
                                                       model: _model
                                                           .scoreRequiredModels
@@ -258,7 +258,9 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                         game:
                                                             listViewGamesRecord,
                                                       ),
+                                                      
                                                     ),
+                                                    */
                                                   ],
                                                 ),
                                               ),
@@ -280,7 +282,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                               ),
                             ),
                           );
-*/
                         }),
                       ),
                     );
