@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future<List<String>> reOrder(
-  List<String> list,
+Future<List<PlayersRecord>> reOrder(
+  List<PlayersRecord> list,
   int oldIndex,
   int newIndex,
 ) async {

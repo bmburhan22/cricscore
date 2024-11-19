@@ -16,24 +16,22 @@ import 'package:provider/provider.dart';
 class CreateGameModel extends FlutterFlowModel<CreateGameWidget> {
   ///  Local state fields for this component.
 
-  List<String> players = [];
-  void addToPlayers(String item) => players.add(item);
-  void removeFromPlayers(String item) => players.remove(item);
+  List<PlayersRecord> players = [];
+  void addToPlayers(PlayersRecord item) => players.add(item);
+  void removeFromPlayers(PlayersRecord item) => players.remove(item);
   void removeAtIndexFromPlayers(int index) => players.removeAt(index);
-  void insertAtIndexInPlayers(int index, String item) =>
+  void insertAtIndexInPlayers(int index, PlayersRecord item) =>
       players.insert(index, item);
-  void updatePlayersAtIndex(int index, Function(String) updateFn) =>
+  void updatePlayersAtIndex(int index, Function(PlayersRecord) updateFn) =>
       players[index] = updateFn(players[index]);
 
   ///  State fields for stateful widgets in this component.
 
   final formKey = GlobalKey<FormState>();
   // Stores action output result for [Firestore Query - Query a collection] action in CreateGame widget.
-  GamesRecord? lastGame;
+  List<PlayersRecord>? plyrs;
   // Stores action output result for [Custom Action - reOrder] action in ListView widget.
-  List<String>? newPlayers;
-  // Stores action output result for [Firestore Query - Query a collection] action in SlidableActionWidget widget.
-  PlayersRecord? player;
+  List<PlayersRecord>? newPlayers;
   // State field(s) for NewPlayer widget.
   FocusNode? newPlayerFocusNode;
   TextEditingController? newPlayerTextController;

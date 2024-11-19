@@ -38,16 +38,10 @@ class _CreateGameWidgetState extends State<CreateGameWidget> {
 
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.lastGame = await queryGamesRecordOnce(
-        queryBuilder: (gamesRecord) =>
-            gamesRecord.orderBy('datetime', descending: true),
-        singleRecord: true,
-      ).then((s) => s.firstOrNull);
-      _model.players = _model.lastGame!.scores
-          .map((e) => e.player)
-          .toList()
-          .toList()
-          .cast<String>();
+      _model.plyrs = await queryPlayersRecordOnce(
+        queryBuilder: (playersRecord) => playersRecord.orderBy('rank'),
+      );
+      _model.players = _model.plyrs!.toList().cast<PlayersRecord>();
       safeSetState(() {});
     });
 
@@ -98,50 +92,50 @@ class _CreateGameWidgetState extends State<CreateGameWidget> {
                           key: ValueKey("ListView_zonijfjp" +
                               '_' +
                               playersListIndex.toString()),
-                          child: Slidable(
-                            endActionPane: ActionPane(
-                              motion: const ScrollMotion(),
-                              extentRatio: 0.25,
-                              children: [
-                                SlidableAction(
-                                  label: 'Delete',
-                                  backgroundColor:
-                                      FlutterFlowTheme.of(context).error,
-                                  icon: Icons.delete_outline_rounded,
-                                  onPressed: (_) async {
-                                    _model.removeFromPlayers(playersListItem);
-                                    safeSetState(() {});
-                                    _model.player =
-                                        await queryPlayersRecordOnce(
-                                      queryBuilder: (playersRecord) =>
-                                          playersRecord.where(
-                                        'name',
-                                        isEqualTo: playersListItem,
-                                      ),
-                                      singleRecord: true,
-                                    ).then((s) => s.firstOrNull);
-                                    await _model.player!.reference.delete();
-
-                                    safeSetState(() {});
-                                  },
+                          child: Padding(
+                            padding: EdgeInsets.all(4),
+                            child: Slidable(
+                              endActionPane: ActionPane(
+                                motion: const ScrollMotion(),
+                                extentRatio: 0.25,
+                                children: [
+                                  SlidableAction(
+                                    label: 'Delete',
+                                    backgroundColor:
+                                        FlutterFlowTheme.of(context).error,
+                                    icon: Icons.delete_outline_rounded,
+                                    onPressed: (_) async {
+                                      _model.removeFromPlayers(playersListItem);
+                                      safeSetState(() {});
+                                      await playersListItem.reference.delete();
+                                    },
+                                  ),
+                                ],
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: ListTile(
+                                  title: Text(
+                                    playersListItem.name,
+                                    style: FlutterFlowTheme.of(context)
+                                        .titleLarge
+                                        .override(
+                                          fontFamily: 'Outfit',
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                          letterSpacing: 0.0,
+                                        ),
+                                  ),
+                                  trailing: Icon(
+                                    Icons.person,
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryBackground,
+                                    size: 20,
+                                  ),
+                                  tileColor: FlutterFlowTheme.of(context)
+                                      .primaryBackground,
+                                  dense: false,
                                 ),
-                              ],
-                            ),
-                            child: Material(
-                              color: Colors.transparent,
-                              child: ListTile(
-                                title: Text(
-                                  playersListItem,
-                                  style: FlutterFlowTheme.of(context)
-                                      .titleLarge
-                                      .override(
-                                        fontFamily: 'Outfit',
-                                        letterSpacing: 0.0,
-                                      ),
-                                ),
-                                tileColor: FlutterFlowTheme.of(context)
-                                    .secondaryBackground,
-                                dense: false,
                               ),
                             ),
                           ),
@@ -155,7 +149,7 @@ class _CreateGameWidgetState extends State<CreateGameWidget> {
                           reorderableNewIndex,
                         );
                         _model.players =
-                            _model.newPlayers!.toList().cast<String>();
+                            _model.newPlayers!.toList().cast<PlayersRecord>();
                         safeSetState(() {});
 
                         safeSetState(() {});
@@ -236,7 +230,7 @@ class _CreateGameWidgetState extends State<CreateGameWidget> {
                   safeSetState(() {
                     _model.newPlayerTextController?.text = 'Player4';
                   });
-                  _model.addToPlayers(_model.newPlayer!.reference.id);
+                  _model.addToPlayers(_model.newPlayer!);
                   safeSetState(() {});
 
                   safeSetState(() {});
@@ -359,7 +353,8 @@ class _CreateGameWidgetState extends State<CreateGameWidget> {
                         ...mapToFirestore(
                           {
                             'scores': getScoresListFirestoreData(
-                              functions.buildScores(_model.players.toList()),
+                              functions.buildScores(
+                                  _model.players.map((e) => e.name).toList()),
                             ),
                           },
                         ),

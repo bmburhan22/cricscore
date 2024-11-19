@@ -18,8 +18,20 @@ Future updateScore(String run, GamesRecord game) async {
     await game.reference
         .update({'batting': (game.batting + 1) % game.scores.length});
   }
-  await game.reference.update({
-    ...mapToFirestore({'scores': getScoresListFirestoreData(game.scores)})
-  });
+  await game.reference.update(
+      mapToFirestore({'scores': getScoresListFirestoreData(game.scores)}));
+  if (matchWinner(game) != null) {
+    final ranked = rankedScores(game).map((s) => s.player).toList();
+    game.scores.forEach((s) => {
+          queryPlayersRecordOnce(
+            queryBuilder: (playersRecord) => playersRecord.where(
+              'name',
+              isEqualTo: s.player,
+            ),
+            singleRecord: true,
+          ).then((snap) => snap.firstOrNull?.reference
+              ?.update({'rank': 1 + ranked.indexOf(s.player)}))
+        });
+  }
   // Add your function code here!
 }

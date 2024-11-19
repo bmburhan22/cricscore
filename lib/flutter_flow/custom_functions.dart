@@ -84,6 +84,7 @@ List<String> buttonsPopulate() {
     "1",
     "4",
     "Wd",
+    "W"
   ];
 }
 

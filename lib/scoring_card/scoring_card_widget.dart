@@ -220,62 +220,26 @@ class _ScoringCardWidgetState extends State<ScoringCardWidget> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      FlutterFlowIconButton(
-                        borderColor: Colors.transparent,
-                        borderRadius: 5,
-                        borderWidth: 1,
-                        buttonSize: 66,
-                        fillColor: FlutterFlowTheme.of(context).primary,
-                        icon: Icon(
-                          Icons.backspace_outlined,
-                          color: Colors.white,
-                          size: 48,
-                        ),
-                        onPressed: () async {
-                          await actions.deleteRun(
-                            widget!.game!,
-                          );
-                        },
-                      ),
-                      FFButtonWidget(
-                        onPressed: () async {
-                          await actions.updateScore(
-                            'W',
-                            widget!.game!,
-                          );
-                        },
-                        text: 'W',
-                        options: FFButtonOptions(
-                          height: 48,
-                          padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                          iconPadding:
-                              EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                          color: FlutterFlowTheme.of(context).error,
-                          textStyle:
-                              FlutterFlowTheme.of(context).titleSmall.override(
-                                    fontFamily: 'Readex Pro',
-                                    color: Colors.white,
-                                    fontSize: 32,
-                                    letterSpacing: 0.0,
-                                  ),
-                          elevation: 3,
-                          borderSide: BorderSide(
-                            color: Colors.transparent,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ],
+                  FlutterFlowIconButton(
+                    borderColor: Colors.transparent,
+                    borderRadius: 5,
+                    borderWidth: 1,
+                    buttonSize: 66,
+                    fillColor: FlutterFlowTheme.of(context).primary,
+                    icon: Icon(
+                      Icons.backspace_outlined,
+                      color: Colors.white,
+                      size: 48,
+                    ),
+                    onPressed: () async {
+                      await actions.deleteRun(
+                        widget!.game!,
+                      );
+                    },
                   ),
                   if ((List<String> runs, int overs) {
-                    return true ||
-                        !runs.contains("W") &&
-                            runs.where((r) => r != 'Wd').length < overs * 6;
+                    return !runs.contains("W") &&
+                        runs.where((r) => r != 'Wd').length < overs * 6;
                   }(widget!.score!.runs.toList(), widget!.game!.overs))
                     Flexible(
                       child: Builder(
@@ -289,7 +253,7 @@ class _ScoringCardWidgetState extends State<ScoringCardWidget> {
                               crossAxisCount: 2,
                               crossAxisSpacing: 10,
                               mainAxisSpacing: 10,
-                              childAspectRatio: 1.2,
+                              childAspectRatio: 2,
                             ),
                             primary: false,
                             scrollDirection: Axis.vertical,
@@ -316,13 +280,15 @@ class _ScoringCardWidgetState extends State<ScoringCardWidget> {
                                       10, 0, 10, 0),
                                   iconPadding: EdgeInsetsDirectional.fromSTEB(
                                       0, 0, 0, 0),
-                                  color: FlutterFlowTheme.of(context).success,
+                                  color: buttonsItem == 'W'
+                                      ? FlutterFlowTheme.of(context).error
+                                      : FlutterFlowTheme.of(context).primary,
                                   textStyle: FlutterFlowTheme.of(context)
                                       .bodySmall
                                       .override(
                                         fontFamily: 'Readex Pro',
                                         color: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
+                                            .primaryBackground,
                                         fontSize: 80,
                                         letterSpacing: 0.0,
                                         fontWeight: FontWeight.bold,
