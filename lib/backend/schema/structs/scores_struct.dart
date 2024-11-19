@@ -36,9 +36,9 @@ class ScoresStruct extends FFFirebaseStruct {
   bool hasOverEnds() => _overEnds != null;
 
   static ScoresStruct fromMap(Map<String, dynamic> data) => ScoresStruct(
-        runs: data['runs'] as List<String>?,
-        player: data['palyer'] as String?,
-        overEnds: data['overEnds'] as List<int>?,
+        runs: (data['runs'] as List?)?.map((i)=>i as String).toList(),
+        player: data['player'] as String?,
+        overEnds: (data['overEnds'] as List?)?.map((i)=>i as int).toList(),
       );
 
   static ScoresStruct? maybeFromMap(dynamic data) =>
