@@ -1,6 +1,6 @@
 import '/backend/backend.dart';
-// import '/create_game/create_game_widget.dart';
-// import '/score_required/score_required_widget.dart';
+import '/create_game/create_game_widget.dart';
+import '/score_required/score_required_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -68,7 +68,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                       onTap: () => FocusScope.of(dialogContext).unfocus(),
                       child: Container(
                         width: 200,
-                        child: Container(), // CreateGameWidget(),
+                        child: CreateGameWidget(),
                       ),
                     ),
                   );
@@ -193,7 +193,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                             highlightColor: Colors.transparent,
                                             onTap: () async {
                                               context.pushNamed(
-                                                'GamePage',
+                                                'Game',
                                                 queryParameters: {
                                                   'gameRef': serializeParam(
                                                     listViewGamesRecord
@@ -239,7 +239,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                             letterSpacing: 0.0,
                                                           ),
                                                     ),
-                                                  /*
+                                                  
                                                     wrapWithModel(
                                                       model: _model
                                                           .scoreRequiredModels
@@ -260,7 +260,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                       ),
                                                       
                                                     ),
-                                                    */
+                                                    
                                                   ],
                                                 ),
                                               ),

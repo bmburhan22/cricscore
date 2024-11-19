@@ -74,29 +74,24 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: '/',
           builder: (context, params) =>  const HomeWidget(),
         ),  
-       /*   
+          
         FFRoute(
           name: 'Game',
           path: '/game',
+          /*
           asyncParams: {
-            'attendance': getDoc(
-                ['classes', 'attendance'], AttendanceRecord.fromSnapshot),
-            'classDoc': getDoc(['classes'], ClassesRecord.fromSnapshot),
-            'students': getDocList(['users'], UsersRecord.fromSnapshot),
+            'gameRef': getDoc(['games'], GamesRecord.fromSnapshot),
           },
-          builder: (context, params) => AttendanceHistoryWidget(
-            attendance: params.getParam(
-              'attendance',
-              ParamType.Document,
-            ),
-            students: params.getParam<UsersRecord>(
-              'students',
-              ParamType.Document,
-              isList: true,
+          */
+          builder: (context, params) => GameWidget(
+            gameRef: params.getParam(
+              'gameRef',
+              ParamType.DocumentReference,
+              collectionNamePath: ['games']
             ),
           ),
         )
-     */
+     
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
 
