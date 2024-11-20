@@ -1,6 +1,6 @@
 import '/backend/backend.dart';
-import '/create_game/create_game_widget.dart';
-import '/score_required/score_required_widget.dart';
+import '/components/create_game_widget.dart';
+import '/components/score_required_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -114,176 +114,163 @@ class _HomeWidgetState extends State<HomeWidget> {
                   builder: (context) {
                     final dateList = _model.dates.toList();
 
-                    return SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children:
-                            List.generate(dateList.length, (dateListIndex) {
-                          final dateListItem = dateList[dateListIndex];
-
-                          return Container(
-                            width: double.infinity,
-                            color: Color(0x00000000),
-                            child: ExpandableNotifier(
-                              initialExpanded: false,
-                              child: ExpandablePanel(
-                                header: Text(
-                                  dateTimeFormat("MMMEd", dateListItem),
-                                  style: FlutterFlowTheme.of(context)
-                                      .titleLarge
-                                      .override(
-                                        fontFamily: 'Outfit',
-                                        color: Colors.black,
-                                        letterSpacing: 0.0,
-                                      ),
+                    return Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: List.generate(dateList.length, (dateListIndex) {
+                        final dateListItem = dateList[dateListIndex];
+                        return Container(
+                          width: double.infinity,
+                          color: Color(0x00000000),
+                          child: ExpandableNotifier(
+                            initialExpanded: false,
+                            child: ExpandablePanel(
+                              header: Text(
+                                dateTimeFormat("MMMEd", dateListItem),
+                                style: FlutterFlowTheme.of(context)
+                                    .titleLarge
+                                    .override(
+                                      fontFamily: 'Outfit',
+                                      color: Colors.black,
+                                      letterSpacing: 0.0,
+                                    ),
+                              ),
+                              collapsed: Container(),
+                              expanded: StreamBuilder<List<GamesRecord>>(
+                                stream: queryGamesRecord(
+                                  queryBuilder: (gamesRecord) => gamesRecord
+                                      .where(
+                                        'datetime',
+                                        isGreaterThanOrEqualTo:
+                                            functions.addDays(dateListItem, 0),
+                                      )
+                                      .where(
+                                        'datetime',
+                                        isLessThan:
+                                            functions.addDays(dateListItem, 1),
+                                      )
+                                      .orderBy('datetime', descending: true),
                                 ),
-                                collapsed: Container(),
-                                expanded: StreamBuilder<List<GamesRecord>>(
-                                  stream: queryGamesRecord(
-                                    queryBuilder: (gamesRecord) => gamesRecord
-                                        .where(
-                                          'datetime',
-                                          isGreaterThanOrEqualTo: functions
-                                              .addDays(dateListItem, 0),
-                                        )
-                                        .where(
-                                          'datetime',
-                                          isLessThan: functions.addDays(
-                                              dateListItem, 1),
-                                        )
-                                        .orderBy('datetime', descending: true),
-                                  ),
-                                  builder: (context, snapshot) {
-                                    // Customize what your widget looks like when it's loading.
-                                    if (!snapshot.hasData) {
-                                      return Center(
-                                        child: SizedBox(
-                                          width: 50,
-                                          height: 50,
-                                          child: CircularProgressIndicator(
-                                            valueColor:
-                                                AlwaysStoppedAnimation<Color>(
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
+                                builder: (context, snapshot) {
+                                  // Customize what your widget looks like when it's loading.
+                                  if (!snapshot.hasData) {
+                                    return Center(
+                                      child: SizedBox(
+                                        width: 50,
+                                        height: 50,
+                                        child: CircularProgressIndicator(
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  List<GamesRecord> listViewGamesRecordList =
+                                      snapshot.data!;
+
+                                  return ListView.builder(
+                                    padding: EdgeInsets.zero,
+                                    primary: false,
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.vertical,
+                                    itemCount: listViewGamesRecordList.length,
+                                    itemBuilder: (context, listViewIndex) {
+                                      final listViewGamesRecord =
+                                          listViewGamesRecordList[
+                                              listViewIndex];
+                                      return Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            10, 0, 10, 0),
+                                        child: InkWell(
+                                          splashColor: Colors.transparent,
+                                          focusColor: Colors.transparent,
+                                          hoverColor: Colors.transparent,
+                                          highlightColor: Colors.transparent,
+                                          onTap: () async {
+                                            context.pushNamed(
+                                              'Game',
+                                              queryParameters: {
+                                                'gameRef': serializeParam(
+                                                  listViewGamesRecord.reference,
+                                                  ParamType.DocumentReference,
+                                                ),
+                                              }.withoutNulls,
+                                            );
+                                          },
+                                          child: Container(
+                                            width: double.infinity,
+                                            decoration: BoxDecoration(
+                                              color: functions.matchWinner(
+                                                          listViewGamesRecord) !=
+                                                      null
+                                                  ? FlutterFlowTheme.of(context)
+                                                      .alternate
+                                                  : FlutterFlowTheme.of(context)
+                                                      .accent2,
+                                              border: Border.all(
+                                                width: 2,
+                                              ),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(10),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Text(
+                                                    dateTimeFormat(
+                                                        "d/M h:mm a",
+                                                        listViewGamesRecord
+                                                            .datetime!),
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              'Readex Pro',
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                  ),
+                                                  wrapWithModel(
+                                                    model: _model
+                                                        .scoreRequiredModels
+                                                        .getModel(
+                                                      listViewGamesRecord
+                                                          .reference.id,
+                                                      listViewIndex,
+                                                    ),
+                                                    updateCallback: () =>
+                                                        safeSetState(() {}),
+                                                    child: ScoreRequiredWidget(
+                                                      key: Key(
+                                                        'Keyw76_${listViewGamesRecord.reference.id}',
+                                                      ),
+                                                      game: listViewGamesRecord,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
                                       );
-                                    }
-                                    List<GamesRecord> listViewGamesRecordList =
-                                        snapshot.data!;
-
-                                    return ListView.builder(
-                                      padding: EdgeInsets.zero,
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.vertical,
-                                      itemCount: listViewGamesRecordList.length,
-                                      itemBuilder: (context, listViewIndex) {
-                                        final listViewGamesRecord =
-                                            listViewGamesRecordList[
-                                                listViewIndex];
-                                        return Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  10, 0, 10, 0),
-                                          child: InkWell(
-                                            splashColor: Colors.transparent,
-                                            focusColor: Colors.transparent,
-                                            hoverColor: Colors.transparent,
-                                            highlightColor: Colors.transparent,
-                                            onTap: () async {
-                                              context.pushNamed(
-                                                'Game',
-                                                queryParameters: {
-                                                  'gameRef': serializeParam(
-                                                    listViewGamesRecord
-                                                        .reference,
-                                                    ParamType.DocumentReference,
-                                                  ),
-                                                }.withoutNulls,
-                                              );
-                                            },
-                                            child: Container(
-                                              width: double.infinity,
-                                              decoration: BoxDecoration(
-                                                color: functions.matchWinner(
-                                                            listViewGamesRecord) !=
-                                                        null
-                                                    ? FlutterFlowTheme.of(
-                                                            context)
-                                                        .alternate
-                                                    : FlutterFlowTheme.of(
-                                                            context)
-                                                        .accent2,
-                                                border: Border.all(
-                                                  width: 2,
-                                                ),
-                                              ),
-                                              child: Padding(
-                                                padding: EdgeInsets.all(10),
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Text(
-                                                      dateTimeFormat(
-                                                          "d/M h:mm a",
-                                                          listViewGamesRecord
-                                                              .datetime!),
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Readex Pro',
-                                                            letterSpacing: 0.0,
-                                                          ),
-                                                    ),
-                                                  
-                                                    wrapWithModel(
-                                                      model: _model
-                                                          .scoreRequiredModels
-                                                          .getModel(
-                                                        listViewGamesRecord
-                                                            .reference.id,
-                                                        listViewIndex,
-                                                      ),
-                                                      updateCallback: () =>
-                                                          safeSetState(() {}),
-                                                      child:
-                                                          ScoreRequiredWidget(
-                                                        key: Key(
-                                                          'Keyw76_${listViewGamesRecord.reference.id}',
-                                                        ),
-                                                        game:
-                                                            listViewGamesRecord,
-                                                      ),
-                                                      
-                                                    ),
-                                                    
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                                theme: ExpandableThemeData(
-                                  tapHeaderToExpand: true,
-                                  tapBodyToExpand: false,
-                                  tapBodyToCollapse: false,
-                                  headerAlignment:
-                                      ExpandablePanelHeaderAlignment.center,
-                                  hasIcon: true,
-                                ),
+                                    },
+                                  );
+                                },
+                              ),
+                              theme: ExpandableThemeData(
+                                tapHeaderToExpand: true,
+                                tapBodyToExpand: false,
+                                tapBodyToCollapse: false,
+                                headerAlignment:
+                                    ExpandablePanelHeaderAlignment.center,
+                                hasIcon: true,
                               ),
                             ),
-                          );
-                        }),
-                      ),
+                          ),
+                        );
+                      }),
                     );
                   },
                 ),

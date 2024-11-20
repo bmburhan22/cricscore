@@ -341,10 +341,10 @@ class _CreateGameWidgetState extends State<CreateGameWidget> {
                   ),
                   FFButtonWidget(
                     onPressed: () async {
-                      await GamesRecord.collection
-                          .doc(dateTimeFormat(
-                              "d-M-y_HH:mm:ss", getCurrentTimestamp))
-                          .set({
+                      var gamesRecordReference = GamesRecord.collection.doc(
+                          dateTimeFormat(
+                              "d-M-y_HH:mm:ss", getCurrentTimestamp));
+                      await gamesRecordReference.set({
                         ...createGamesRecordData(
                           datetime: getCurrentTimestamp,
                           batting: 0,
@@ -359,7 +359,35 @@ class _CreateGameWidgetState extends State<CreateGameWidget> {
                           },
                         ),
                       });
-                      context.safePop();
+                      _model.newGame = GamesRecord.getDocumentFromData({
+                        ...createGamesRecordData(
+                          datetime: getCurrentTimestamp,
+                          batting: 0,
+                          overs: int.tryParse(_model.textController2.text),
+                        ),
+                        ...mapToFirestore(
+                          {
+                            'scores': getScoresListFirestoreData(
+                              functions.buildScores(
+                                  _model.players.map((e) => e.name).toList()),
+                            ),
+                          },
+                        ),
+                      }, gamesRecordReference);
+                      if (Navigator.of(context).canPop()) {
+                        context.pop();
+                      }
+                      context.pushNamed(
+                        'Game',
+                        queryParameters: {
+                          'gameRef': serializeParam(
+                            _model.newGame?.reference,
+                            ParamType.DocumentReference,
+                          ),
+                        }.withoutNulls,
+                      );
+
+                      safeSetState(() {});
                     },
                     text: 'Start',
                     options: FFButtonOptions(

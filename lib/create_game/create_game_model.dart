@@ -42,6 +42,8 @@ class CreateGameModel extends FlutterFlowModel<CreateGameWidget> {
   FocusNode? textFieldFocusNode;
   TextEditingController? textController2;
   String? Function(BuildContext, String?)? textController2Validator;
+  // Stores action output result for [Backend Call - Create Document] action in Button widget.
+  GamesRecord? newGame;
 
   @override
   void initState(BuildContext context) {}
