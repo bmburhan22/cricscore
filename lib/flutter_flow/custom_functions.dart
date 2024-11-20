@@ -1,7 +1,15 @@
- 
+import 'dart:convert';
 import 'dart:math' as math;
- 
-import '/backend/backend.dart'; 
+
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import 'lat_lng.dart';
+import 'place.dart';
+import 'uploaded_file.dart';
+import '/backend/backend.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '/backend/schema/structs/index.dart';
 
 List<ScoresStruct>? buildScores(List<String>? players) {
@@ -79,13 +87,7 @@ List<int> numList(int n) {
 }
 
 List<String> buttonsPopulate() {
-  return [
-    "0",
-    "1",
-    "4",
-    "Wd",
-    "W"
-  ];
+  return ["0", "1", "4", "Wd", "W"];
 }
 
 int getRank(
@@ -106,16 +108,15 @@ ScoresStruct? notOutBatter(GamesRecord game) {
 ScoresStruct? matchWinner(GamesRecord game) {
   var scores = game.scores;
   int balls = game.overs * 6;
-  if (scores
-      //.sublist(0, scores.length - 1)
-      .every((s) =>
-          s.runs.contains('W') ||
-          s.runs.where((r) => r != 'Wd').length == balls)) {
-    if (scores.last.runs.contains('W') ||
-        scores.last.runs.where((r) => r != 'Wd').length == balls ||
-        scores.last == rankedScores(game).first)
-      return rankedScores(game).first;
-  }
+  // if (scores
+  //.sublist(0, scores.length - 1)
+  // .every((s) =>
+  //     s.runs.contains('W') ||
+  // s.runs.where((r) => r != 'Wd').length == balls)) {
+  if (scores.last.runs.contains('W') ||
+      scores.last.runs.where((r) => r != 'Wd').length == balls ||
+      scores.last == rankedScores(game).first) return rankedScores(game).first;
+  // }
   return null;
 }
 
