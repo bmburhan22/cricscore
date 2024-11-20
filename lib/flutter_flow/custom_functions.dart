@@ -108,15 +108,13 @@ ScoresStruct? notOutBatter(GamesRecord game) {
 ScoresStruct? matchWinner(GamesRecord game) {
   var scores = game.scores;
   int balls = game.overs * 6;
-  // if (scores
-  //.sublist(0, scores.length - 1)
-  // .every((s) =>
-  //     s.runs.contains('W') ||
-  // s.runs.where((r) => r != 'Wd').length == balls)) {
-  if (scores.last.runs.contains('W') ||
-      scores.last.runs.where((r) => r != 'Wd').length == balls ||
-      scores.last == rankedScores(game).first) return rankedScores(game).first;
-  // }
+  if (scores.sublist(0, scores.length - 1).every((s) =>
+      s.runs.contains('W') || s.runs.where((r) => r != 'Wd').length == balls)) {
+    if (scores.last.runs.contains('W') ||
+        scores.last.runs.where((r) => r != 'Wd').length == balls ||
+        scores.last == rankedScores(game).first)
+      return rankedScores(game).first;
+  }
   return null;
 }
 

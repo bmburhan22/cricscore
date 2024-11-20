@@ -63,8 +63,8 @@ class _ScoringCardWidgetState extends State<ScoringCardWidget> {
       ),
       decoration: BoxDecoration(
         color: widget!.isBatting
-            ? FlutterFlowTheme.of(context).secondary
-            : FlutterFlowTheme.of(context).alternate,
+            ? FlutterFlowTheme.of(context).alternate
+            : FlutterFlowTheme.of(context).primaryBackground,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
           width: 2,
@@ -237,10 +237,12 @@ class _ScoringCardWidgetState extends State<ScoringCardWidget> {
                       );
                     },
                   ),
-                  if ((List<String> runs, int overs) {
-                    return !runs.contains("W") &&
+                  if ((List<String> runs, int overs, bool ended) {
+                    return !ended &&
+                        !runs.contains("W") &&
                         runs.where((r) => r != 'Wd').length < overs * 6;
-                  }(widget!.score!.runs.toList(), widget!.game!.overs))
+                  }(widget!.score!.runs.toList(), widget!.game!.overs,
+                      (functions.matchWinner(widget!.game!) != null)))
                     Flexible(
                       child: Builder(
                         builder: (context) {
