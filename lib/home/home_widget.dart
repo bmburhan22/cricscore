@@ -1,6 +1,6 @@
 import '/backend/backend.dart';
-import '/components/create_game_widget.dart';
-import '/components/score_required_widget.dart';
+import '/create_game/create_game_widget.dart';
+import '/score_required/score_required_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
