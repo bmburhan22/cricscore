@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -199,16 +200,34 @@ class _HomeWidgetState extends State<HomeWidget> {
                                               }.withoutNulls,
                                             );
                                           },
+                                          onLongPress: () async {
+                                            await listViewGamesRecord.reference
+                                                .update(createGamesRecordData(
+                                              dismissed: !listViewGamesRecord
+                                                  .dismissed,
+                                            ));
+                                          },
                                           child: Container(
                                             width: double.infinity,
                                             decoration: BoxDecoration(
-                                              color: functions.matchWinner(
-                                                          listViewGamesRecord) !=
-                                                      null
-                                                  ? FlutterFlowTheme.of(context)
-                                                      .alternate
-                                                  : FlutterFlowTheme.of(context)
-                                                      .accent2,
+                                              color: () {
+                                                if (listViewGamesRecord
+                                                    .dismissed) {
+                                                  return FlutterFlowTheme.of(
+                                                          context)
+                                                      .error;
+                                                } else if (functions.matchWinner(
+                                                        listViewGamesRecord) !=
+                                                    null) {
+                                                  return FlutterFlowTheme.of(
+                                                          context)
+                                                      .alternate;
+                                                } else {
+                                                  return FlutterFlowTheme.of(
+                                                          context)
+                                                      .accent2;
+                                                }
+                                              }(),
                                               border: Border.all(
                                                 width: 2,
                                               ),

@@ -6,6 +6,8 @@ environment:
 flutter_launcher_icons:
   android: "launcher_icon"
   image_path: "assets/icon/icon.png"
+  adaptive_icon_foreground: "assets/icon/icon.png" # Set the foreground image (same or different from image_path)
+  adaptive_icon_background: "#832F30"
 dependencies:
   flutter:
     sdk: flutter

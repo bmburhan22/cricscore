@@ -33,6 +33,10 @@ class GamesRecord extends FirestoreRecord {
   int? _overs;
   int get overs => _overs ?? 0;
   bool hasOvers() => _overs != null;
+  // "dismissed" field.
+  bool? _dismissed;
+  bool get dismissed => _dismissed ?? false;
+  bool hasDismissed() => _dismissed != null;
 
   void _initializeFields() {
     _scores = getStructList(
@@ -43,6 +47,7 @@ class GamesRecord extends FirestoreRecord {
 
     _batting = castToType<int>(snapshotData['batting']);
     _overs = castToType<int>(snapshotData['overs']);
+    _dismissed = snapshotData['dismissed'] as bool;
   }
 
   static CollectionReference get collection =>
@@ -83,6 +88,7 @@ Map<String, dynamic> createGamesRecordData({
   List<ScoresStruct>? scores,
   int? batting,
   int? overs,
+  bool? dismissed
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -90,6 +96,7 @@ Map<String, dynamic> createGamesRecordData({
       'scores': scores,
       'batting': batting,
       'overs': overs,
+      'dismissed': dismissed,
     }.withoutNulls,
   );
 
@@ -105,7 +112,8 @@ class GamesRecordDocumentEquality implements Equality<GamesRecord> {
     return e1?.datetime == e2?.datetime &&
         listEquality.equals(e1?.scores, e2?.scores) &&
         e1?.batting == e2?.batting &&
-        e1?.overs == e2?.overs;
+        e1?.overs == e2?.overs &&
+        e1?.dismissed == e2?.dismissed;
   }
 
   @override
@@ -114,6 +122,7 @@ class GamesRecordDocumentEquality implements Equality<GamesRecord> {
         e?.scores,
         e?.batting,
         e?.overs,
+        e?.dismissed,
       ]);
 
   @override
