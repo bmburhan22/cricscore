@@ -349,6 +349,7 @@ class _CreateGameWidgetState extends State<CreateGameWidget> {
                           datetime: getCurrentTimestamp,
                           batting: 0,
                           overs: int.tryParse(_model.textController2.text),
+                          dismissed: false,
                         ),
                         ...mapToFirestore(
                           {
@@ -364,6 +365,7 @@ class _CreateGameWidgetState extends State<CreateGameWidget> {
                           datetime: getCurrentTimestamp,
                           batting: 0,
                           overs: int.tryParse(_model.textController2.text),
+                          dismissed: false,
                         ),
                         ...mapToFirestore(
                           {
