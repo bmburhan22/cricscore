@@ -151,6 +151,7 @@ class _ScoringCardWidgetState extends State<ScoringCardWidget> {
 
               return SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
+                controller: _model.rowController,
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: List.generate(runs.length, (runsIndex) {
@@ -275,6 +276,12 @@ class _ScoringCardWidgetState extends State<ScoringCardWidget> {
                                           buttonsItem,
                                           widget!.game!,
                                         );
+                                        await _model.rowController?.animateTo(
+                                          _model.rowController!.position
+                                              .maxScrollExtent,
+                                          duration: Duration(milliseconds: 100),
+                                          curve: Curves.ease,
+                                        );
                                       },
                                 text: buttonsItem,
                                 options: FFButtonOptions(
@@ -304,6 +311,7 @@ class _ScoringCardWidgetState extends State<ScoringCardWidget> {
                                 ),
                               );
                             },
+                            controller: _model.gridViewController,
                           );
                         },
                       ),
