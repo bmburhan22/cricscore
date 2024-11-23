@@ -12,10 +12,22 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class ScoringCardModel extends FlutterFlowModel<ScoringCardWidget> {
-  @override
-  void initState(BuildContext context) {}
+  ///  State fields for stateful widgets in this component.
+
+  // State field(s) for Row widget.
+  ScrollController? rowController;
+  // State field(s) for GridView widget.
+  ScrollController? gridViewController;
 
   @override
-  void dispose() {}
+  void initState(BuildContext context) {
+    rowController = ScrollController();
+    gridViewController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    rowController?.dispose();
+    gridViewController?.dispose();
+  }
 }
-
