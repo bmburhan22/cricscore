@@ -82,7 +82,7 @@ class _ScoringCardWidgetState extends State<ScoringCardWidget> {
                 decoration: BoxDecoration(
                   color:
                       widget!.rank == 1 ? Color(0xFF00FF5A) : Color(0x00000000),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(24),
                   border: Border.all(
                     color: FlutterFlowTheme.of(context).primary,
                   ),
@@ -96,7 +96,7 @@ class _ScoringCardWidgetState extends State<ScoringCardWidget> {
                     ),
                     style: FlutterFlowTheme.of(context).bodyLarge.override(
                           fontFamily: 'Readex Pro',
-                          fontSize: 18,
+                          fontSize: 28,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w600,
                         ),
@@ -114,13 +114,14 @@ class _ScoringCardWidgetState extends State<ScoringCardWidget> {
                         widget!.score!.player,
                         style: FlutterFlowTheme.of(context).bodyLarge.override(
                               fontFamily: 'Readex Pro',
+                              fontSize: 16,
                               letterSpacing: 0.0,
                             ),
                       ),
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(24),
                         border: Border.all(
                           color: FlutterFlowTheme.of(context).primary,
                         ),
@@ -133,7 +134,7 @@ class _ScoringCardWidgetState extends State<ScoringCardWidget> {
                           style:
                               FlutterFlowTheme.of(context).bodyLarge.override(
                                     fontFamily: 'Readex Pro',
-                                    fontSize: 18,
+                                    fontSize: 28,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -165,9 +166,6 @@ class _ScoringCardWidgetState extends State<ScoringCardWidget> {
                           decoration: BoxDecoration(
                             color: FlutterFlowTheme.of(context).secondary,
                             shape: BoxShape.circle,
-                            border: Border.all(
-                              color: FlutterFlowTheme.of(context).primary,
-                            ),
                           ),
                           alignment: AlignmentDirectional(0, 0),
                           child: Text(
@@ -175,6 +173,8 @@ class _ScoringCardWidgetState extends State<ScoringCardWidget> {
                             style:
                                 FlutterFlowTheme.of(context).bodyLarge.override(
                                       fontFamily: 'Readex Pro',
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryBackground,
                                       fontSize: 18,
                                       letterSpacing: 0.0,
                                       fontWeight: FontWeight.w500,
